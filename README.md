@@ -17,9 +17,9 @@ R/                      library code (no side effects on source)
   latex_tables.R        all .tex writers + console diagnostics
   figures.R             fig_weights.pdf + info file
 scripts/
-  run_smoke.R           tiny end-to-end pipeline test -> output/smoke/
+  run_smoke.R            end-to-end test with small REPS -> output/smoke/
   run_mc.R              production run             -> output/production/
-  make_outputs.R        regenerate tables/figures from SAVED results
+  make_outputs.R        generate tables/figures from saved results
 output/
   smoke/…               "_smoke"-tagged files, SMOKE banner in tables
   production/…          raw/ processed/ tables/ figures/ logs/
@@ -53,14 +53,6 @@ REPS <- 2000; RUN_UNIFORM <- FALSE; source("scripts/run_mc.R")
 
 When changing parameters, restart R before running the scripts again.
 
-## Parameters (pre-assign before source, or edit the defaults)
-
-run_mc.R: `REPS` (10000), `NS` (c(500)), `UNIF_NS` (c(500)), `SEED`
-(42), `RUN_AK`, `RUN_UNIFORM`, `MAX_CORES` (30), `NS_OVERRIDE`,
-`PLRD_WINDOWS`, `RUN_TABLES`/`RUN_FIGURE`/`RUN_CHECKS`.
-run_smoke.R: `SMOKE_REPS` (20), `SMOKE_DESIGNS`, plus the shared ones.
-make_outputs.R: `MODE` ("production"/"smoke") plus the stage flags.
-
 ### n-grid extension
 
 ```r
@@ -68,17 +60,6 @@ NS_OVERRIDE <- list(pl_smooth = c(250, 500, 1000, 2000),
                     pl_local  = c(250, 500, 1000, 2000),
                     gap       = c(250, 500, 1000, 2000))
 ```
-
-## Reproducibility
-
-Every (dist, design, n, rep) task gets a deterministic seed from a
-plain string hash of those identifiers plus the master seed. Each
-task seeds its own RNG stream (Mersenne-Twister / Inversion /
-Rejection). Results are therefore identical under serial and parallel
-execution and under any core count, and any single replication can be
-reproduced in isolation via `one_rep(rep, dist, design, n, cfg)`.
-`logs/run_metadata*.txt` records R and package versions (including
-any install SHA), the seed rule and settings.
 
 ## Smoke-run verification checklist
 
@@ -106,6 +87,4 @@ Only then launch `scripts/run_mc.R`.
 ## Notes
 
 - Coverage and interval-length summaries use successful fits only;
-  `tab_fits.tex` reports success counts and failure rates per cell,
-  and every failed fit is a visible row in the raw file with status,
-  error text, and captured warnings (nothing is filtered by `try()`).
+  `tab_fits.tex` reports success counts and failure rates per cell.
