@@ -40,14 +40,18 @@ Rscript scripts/run_mc.R
 Rscript scripts/make_outputs.R
 ```
 
-All scripts also work via `source()` from an R session but pre-assign
-parameters first:
+All scripts also work via `source()` from an R session but pre-assign parameters first e.g.
 
 ```r
-REPS <- 2000; RUN_UNIFORM <- FALSE; source("scripts/run_mc.R")
+REPS <- 2000
+NS          <- c(500, 1000)
+RUN_UNIFORM <- FALSE
+PLRD_WINDOWS <- list("PLRD" = NULL, "PLRD (w=0.5)" = 0.5,
+                     "PLRD (w=2h)" = function(dat, ctx) 2 * ctx[["h_l"]])
+source("scripts/run_mc.R")
 ```
 
-When changing parameters, restart R before running the scripts again.
+When changing parameters, restart R or rm(list = ls()) the working environment before running the scripts again.
 
 ### n-grid extension
 
@@ -82,5 +86,5 @@ Only then launch `scripts/run_mc.R`.
 
 ## Notes
 
-- Coverage and interval-length summaries use successful fits only;
+- Coverage and interval-length summaries use successful fits only,
   `tab_fits.tex` reports success counts and failure rates per cell.
