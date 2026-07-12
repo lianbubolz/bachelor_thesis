@@ -25,10 +25,6 @@ output/
   production/…          raw/ processed/ tables/ figures/ logs/
 ```
 
-Smoke and production can never collide: different directories,
-"_smoke"-tagged filenames, and a `% SMOKE OUTPUT` banner inside every
-smoke table.
-
 ## Quick start
 
 ```r
