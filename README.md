@@ -43,11 +43,10 @@ Rscript scripts/make_outputs.R
 All scripts also work via `source()` from an R session but pre-assign parameters first e.g.
 
 ```r
-REPS <- 2000
-NS          <- c(500, 1000)
-RUN_UNIFORM <- FALSE
-PLRD_WINDOWS <- list("PLRD" = NULL, "PLRD (w=0.5)" = 0.5,
-                     "PLRD (w=2h)" = function(dat, ctx) 2 * ctx[["h_l"]])
+REPS           <- 2000
+NS             <- c(500, 1000)
+RUN_UNIFORM    <- FALSE
+PLRD_WINDOWS   <- list("PLRD" = NULL, "PLRD (w=0.5)" = 0.5, "PLRD (w=2h)" = function(dat, ctx) 2 * ctx[["h_l"]])
 source("scripts/run_mc.R")
 ```
 
